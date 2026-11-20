@@ -1,0 +1,150 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Reseñas | BLACKLINE</title>
+<link rel="stylesheet" href="{% static 'blackline/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'blackline/css/resenas.css' %}">
+</head>
+<body>
+
+<header class="header">
+  <a class="logo" href="{% url 'inicio' %}"><span>BL</span> BLACKLINE</a>
+  <button class="menu-toggle">☰</button>
+  <nav class="nav">
+    <a href="{% url 'inicio' %}">Inicio</a>
+    <a href="{% url 'servicios' %}">Servicios</a>
+    <a href="{% url 'citas' %}">Agendar cita</a>
+    <a href="{% url 'productos' %}">Productos</a>
+    <a class="active" href="{% url 'resenas' %}">Reseñas</a>
+    <a href="{% url 'contacto' %}">Contacto</a>
+  </nav>
+  <a class="header-cta" href="{% url 'citas' %}">Reservar</a>
+</header>
+
+<section class="page-hero">
+  <div class="eyebrow">CLIENTES BLACKLINE</div>
+  <h1>Lo que dicen <span>de nosotros.</span></h1>
+  <p>Opiniones reales de quienes ya vivieron la experiencia. Cuéntanos cómo te fue.</p>
+</section>
+
+<section class="section">
+
+  {% if messages %}
+  <div class="flash-wrap">
+    {% for m in messages %}<div class="flash {{ m.tags }}">{{ m }}</div>{% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="review-layout">
+
+    <aside class="rating-summary">
+      {% if total %}
+      <div class="rating-big">{{ promedio|floatformat:1 }}<small>/ 5</small></div>
+      <div class="stars-static" aria-label="Calificación promedio {{ promedio|floatformat:1 }} de 5">
+        {% for i in "12345" %}{% if forloop.counter <= promedio_entero %}★{% else %}☆{% endif %}{% endfor %}
+      </div>
+      <p class="rating-count">Basado en {{ total }} reseña{{ total|pluralize }}</p>
+      <div class="rating-bars">
+        {% for d in distribucion %}
+        <div class="bar-row">
+          <span>{{ d.estrellas }}★</span>
+          <div class="bar"><i style="width: {{ d.porcentaje }}%"></i></div>
+          <span>{{ d.cantidad }}</span>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <p class="rating-count">Aún no hay reseñas. ¡Sé el primero en opinar!</p>
+      {% endif %}
+    </aside>
+
+    <form id="opina" class="form-card review-form" method="post" action="{% url 'resenas' %}#opina">
+      {% csrf_token %}
+      <h2>Deja tu reseña</h2>
+
+      {% if form.errors %}
+      <div class="flash error">
+        {% for campo, errores in form.errors.items %}{% for e in errores %}{{ e }}<br>{% endfor %}{% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="form-grid">
+        <label>Tu nombre
+          <input required name="nombre" maxlength="60" placeholder="Ej. Carlos M." value="{{ form.data.nombre|default:'' }}">
+        </label>
+        <label>Servicio (opcional)
+          <select name="servicio">
+            <option value="">Selecciona</option>
+            {% for s in servicios %}
+            <option value="{{ s.id }}"{% if form.data.servicio == s.id|stringformat:"s" %} selected{% endif %}>{{ s.nombre }}</option>
+            {% endfor %}
+          </select>
+        </label>
+      </div>
+
+      <fieldset class="star-input">
+        <legend>Tu calificación</legend>
+        <div class="star-row">
+          {% for n in "54321" %}
+          <input type="radio" id="estrella{{ n }}" name="calificacion" value="{{ n }}" required{% if form.data.calificacion == n %} checked{% endif %}>
+          <label for="estrella{{ n }}" title="{{ n }} estrella{{ n|pluralize }}">★</label>
+          {% endfor %}
+        </div>
+      </fieldset>
+
+      <label>Tu opinión
+        <textarea required name="comentario" rows="5" minlength="10" maxlength="600" placeholder="¿Qué tal estuvo tu visita?">{{ form.data.comentario|default:'' }}</textarea>
+      </label>
+
+      <div class="hp" aria-hidden="true">
+        <label>No llenes este campo<input name="web" tabindex="-1" autocomplete="off"></label>
+      </div>
+
+      <button class="btn btn-primary full">Publicar reseña →</button>
+      <p class="form-note">Tu reseña se publica con tu nombre. Revisamos que no incluya enlaces ni lenguaje ofensivo.</p>
+    </form>
+  </div>
+
+  <div class="review-list">
+    {% for r in pagina %}
+    <article class="review-card">
+      <div class="review-stars" aria-label="{{ r.calificacion }} de 5 estrellas">
+        {% for i in "12345" %}{% if forloop.counter <= r.calificacion %}★{% else %}☆{% endif %}{% endfor %}
+      </div>
+      <p>“{{ r.comentario }}”</p>
+      <div class="review-meta">
+        <b>— {{ r.nombre }}</b>
+        <small>{% if r.servicio %}{{ r.servicio.nombre }} · {% endif %}{{ r.creada|date:"j \d\e F \d\e Y"|lower }}</small>
+      </div>
+      {% if r.respuesta %}
+      <div class="review-reply"><strong>Respuesta de BLACKLINE</strong><p>{{ r.respuesta }}</p></div>
+      {% endif %}
+    </article>
+    {% empty %}
+    <p class="rating-count">Todavía no hay reseñas publicadas.</p>
+    {% endfor %}
+  </div>
+
+  {% if pagina.has_other_pages %}
+  <nav class="pager" aria-label="Páginas de reseñas">
+    {% if pagina.has_previous %}<a class="btn btn-small" href="?page={{ pagina.previous_page_number }}">← Anteriores</a>{% endif %}
+    <span>Página {{ pagina.number }} de {{ pagina.paginator.num_pages }}</span>
+    {% if pagina.has_next %}<a class="btn btn-small" href="?page={{ pagina.next_page_number }}">Siguientes →</a>{% endif %}
+  </nav>
+  {% endif %}
+</section>
+
+<footer class="footer">
+  <div>
+    <a class="logo" href="{% url 'inicio' %}"><span>BL</span> BLACKLINE</a>
+    <p>Estilo que habla por ti.</p>
+  </div>
+  <p>© 2026 BLACKLINE Barbería.</p>
+</footer>
+
+<script src="{% static 'blackline/js/script.js' %}?v=3"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{% extends 'blackline/emails/base.html' %}
+{% block contenido %}
+<h2 style="margin:0 0 12px;color:#d4ae62;font-size:22px;">¡Tu cita está registrada!</h2>
+<p style="margin:0 0 18px;">Hola {{ cita.nombre }}, estos son los datos de tu reserva:</p>
+<table role="presentation" width="100%" cellpadding="8" cellspacing="0" style="border:1px solid #272b29;font-size:14px;">
+<tr><td style="color:#9b9d98;">Servicio</td><td>{{ cita.servicio.nombre }}</td></tr>
+<tr><td style="color:#9b9d98;">Barbero</td><td>{{ cita.barbero }}</td></tr>
+<tr><td style="color:#9b9d98;">Fecha</td><td>{{ cita.fecha|date:"j \d\e F \d\e Y"|lower }}</td></tr>
+<tr><td style="color:#9b9d98;">Hora</td><td>{{ cita.hora }}</td></tr>
+<tr><td style="color:#9b9d98;">Precio</td><td style="color:#d4ae62;font-weight:bold;">${{ cita.servicio.precio|floatformat:2 }}</td></tr>
+</table>
+<p style="margin:18px 0 0;color:#9b9d98;">Te esperamos. Si necesitas cambiar tu cita, llámanos al 55 1234 5678.</p>
+{% endblock %}

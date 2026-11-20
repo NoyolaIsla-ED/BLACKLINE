@@ -1,0 +1,10 @@
+venv/
+entorno/
+__pycache__/
+*.py[cod]
+*.sqlite3
+.env
+staticfiles/
+.DS_Store
+config/correo_local.py
+BLACKLINE_LISTO/

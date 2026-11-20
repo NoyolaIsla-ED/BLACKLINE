@@ -1,0 +1,12 @@
+{% extends 'blackline/emails/base.html' %}
+{% block contenido %}
+<h2 style="margin:0 0 12px;color:#d4ae62;font-size:22px;">¡Gracias por tu compra!</h2>
+<p style="margin:0 0 18px;">Hola {{ pedido.nombre }}, recibimos tu pedido <b>#{{ pedido.pk }}</b>:</p>
+<table role="presentation" width="100%" cellpadding="8" cellspacing="0" style="border:1px solid #272b29;font-size:14px;">
+{% for i in items %}
+<tr><td>{{ i.nombre }} × {{ i.cantidad }}</td><td align="right">${{ i.subtotal|floatformat:2 }}</td></tr>
+{% endfor %}
+<tr><td style="border-top:1px solid #272b29;color:#d4ae62;font-weight:bold;">Total</td><td align="right" style="border-top:1px solid #272b29;color:#d4ae62;font-weight:bold;">${{ pedido.total|floatformat:2 }}</td></tr>
+</table>
+<p style="margin:18px 0 0;color:#9b9d98;">Puedes recoger tu pedido en la barbería en nuestro horario.</p>
+{% endblock %}

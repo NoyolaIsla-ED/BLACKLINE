@@ -1,0 +1,162 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendar cita | BLACKLINE</title>
+    <link rel="stylesheet" href="{% static 'blackline/css/style.css' %}">
+</head>
+
+<body>
+
+<header class="header">
+    <a class="logo" href="{% url 'inicio' %}">
+        <span>BL</span> BLACKLINE
+    </a>
+
+    <button class="menu-toggle">☰</button>
+
+    <nav class="nav">
+        <a href="{% url 'inicio' %}">Inicio</a>
+        <a href="{% url 'servicios' %}">Servicios</a>
+        <a class="active" href="{% url 'citas' %}">Agendar cita</a>
+        <a href="{% url 'productos' %}">Productos</a>
+        <a href="{% url 'resenas' %}">Reseñas</a>
+        <a href="{% url 'contacto' %}">Contacto</a>
+    </nav>
+
+    <a class="header-cta" href="{% url 'citas' %}">Reservar</a>
+</header>
+
+<section class="page-hero booking-hero">
+    <div class="eyebrow">RESERVA EN LÍNEA</div>
+    <h1>Agenda tu <span>cita.</span></h1>
+    <p>Elige servicio, barbero y horario. Tu reserva se guarda al instante y te enviamos la confirmación por correo.</p>
+</section>
+
+<section class="section booking-layout">
+
+    <form id="appointmentForm" class="form-card" method="post" action="{% url 'citas' %}">
+        {% csrf_token %}
+
+        <h2>Reserva tu cita</h2>
+
+        <div class="form-grid">
+
+            <label>
+                Nombre completo
+                <input required name="nombre" placeholder="Tu nombre">
+            </label>
+
+            <label>
+                Teléfono
+                <input required name="telefono" placeholder="55 0000 0000">
+            </label>
+
+            <label style="grid-column:1/-1">
+                Correo electrónico (te enviamos la confirmación)
+                <input required type="email" name="correo" placeholder="correo@gmail.com">
+            </label>
+
+            <label>
+                Servicio
+                <select required name="servicio" id="serviceSelect">
+                    <option value="">Selecciona</option>
+                    {% for servicio in servicios %}
+                    <option value="{{ servicio.id }}">{{ servicio.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label>
+                Barbero
+                <select required name="barbero">
+                    <option value="">Selecciona</option>
+                    {% for b in barberos %}
+                    <option>{{ b }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label>
+                Fecha
+                <input required id="dateInput" name="fecha" type="date">
+            </label>
+
+            <label>
+                Hora
+                <select required name="hora">
+                    <option value="">Selecciona</option>
+                    {% for h in horas %}
+                    <option>{{ h }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+        </div>
+
+        <button class="btn btn-primary full">Confirmar reserva →</button>
+
+        <div id="appointmentMessage" class="form-message"></div>
+    </form>
+
+    <aside class="availability">
+
+        <div class="eyebrow">BARBEROS</div>
+        <h2>Disponibilidad</h2>
+
+        <div class="barber">
+            <b>DR</b>
+            <div>
+                <strong>Diego R.</strong>
+                <small>Especialista en fades</small>
+                <i>● Disponible</i>
+            </div>
+        </div>
+
+        <div class="barber">
+            <b>AM</b>
+            <div>
+                <strong>Alex M.</strong>
+                <small>Barba y afeitado</small>
+                <i>● Disponible</i>
+            </div>
+        </div>
+
+        <div class="barber">
+            <b>ML</b>
+            <div>
+                <strong>Marco L.</strong>
+                <small>Cortes clásicos</small>
+                <i>● Disponible</i>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="hours">
+            <strong>Horario</strong>
+            <span>Lunes – Sábado · 10:00 – 20:00</span>
+            <span>Domingo · Cerrado</span>
+        </div>
+
+    </aside>
+
+</section>
+
+<footer class="footer">
+    <div>
+        <a class="logo" href="{% url 'inicio' %}">
+            <span>BL</span> BLACKLINE
+        </a>
+        <p>Estilo que habla por ti.</p>
+    </div>
+
+    <p>© 2026 BLACKLINE Barbería.</p>
+</footer>
+
+<script src="{% static 'blackline/js/script.js' %}"></script>
+
+</body>
+</html>

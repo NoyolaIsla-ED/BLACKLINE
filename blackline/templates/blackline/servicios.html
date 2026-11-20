@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios | BLACKLINE</title>
+    <link rel="stylesheet" href="{% static 'blackline/css/style.css' %}">
+</head>
+
+<body>
+
+    <!-- ENCABEZADO Y MENÚ -->
+    <header class="header">
+
+        <a class="logo" href="{% url 'inicio' %}">
+            <span>BL</span> BLACKLINE
+        </a>
+
+        <button class="menu-toggle">☰</button>
+
+        <nav class="nav">
+            <a href="{% url 'inicio' %}">Inicio</a>
+            <a class="active" href="{% url 'servicios' %}">Servicios</a>
+            <a href="{% url 'citas' %}">Agendar cita</a>
+            <a href="{% url 'productos' %}">Productos</a>
+            <a href="{% url 'resenas' %}">Reseñas</a>
+            <a href="{% url 'contacto' %}">Contacto</a>
+        </nav>
+
+        <a class="header-cta" href="{% url 'citas' %}">
+            Reservar
+        </a>
+
+    </header>
+
+    <!-- PRESENTACIÓN -->
+    <section class="page-hero">
+
+        <div class="eyebrow">BLACKLINE SERVICES</div>
+
+        <h1>Servicios para <span>tu estilo.</span></h1>
+
+        <p>
+            Cortes, barba y experiencias premium realizadas por nuestros barberos.
+        </p>
+
+    </section>
+
+    <!-- LISTA DE SERVICIOS -->
+    <section class="section">
+
+        <div class="service-grid">
+
+            {% for servicio in servicios %}
+
+            <article class="service-card{% if servicio.destacado %} featured{% endif %}">
+
+                <div class="service-img">
+                    <img
+                        src="{{ servicio.imagen_url }}"
+                        alt="{{ servicio.texto_alternativo|default:servicio.nombre }}"
+                    >
+                </div>
+
+                <div class="service-body">
+
+                    <span class="service-type">
+                        {{ servicio.categoria }}
+                    </span>
+
+                    <h3>{{ servicio.nombre }}</h3>
+
+                    <p>{{ servicio.descripcion }}</p>
+
+                    <div class="service-bottom">
+
+                        <strong>
+                            ${{ servicio.precio|floatformat:0 }}
+                        </strong>
+
+                        <a href="{% url 'citas' %}?servicio={{ servicio.nombre|urlencode }}">
+                            Agendar →
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+            {% empty %}
+
+            <p>No hay servicios disponibles por el momento.</p>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="footer">
+
+        <div>
+
+            <a class="logo" href="{% url 'inicio' %}">
+                <span>BL</span> BLACKLINE
+            </a>
+
+            <p>Estilo que habla por ti.</p>
+
+        </div>
+
+        <p>© 2026 BLACKLINE Barbería.</p>
+
+    </footer>
+
+    <script src="{% static 'blackline/js/script.js' %}"></script>
+
+</body>
+</html>

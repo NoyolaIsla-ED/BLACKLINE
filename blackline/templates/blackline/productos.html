@@ -1,0 +1,134 @@
+{% load static l10n %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos | BLACKLINE</title>
+    <link rel="stylesheet" href="{% static 'blackline/css/style.css' %}">
+</head>
+
+<body>
+
+    <!-- ENCABEZADO Y MENÚ -->
+    <header class="header">
+
+        <a class="logo" href="{% url 'inicio' %}">
+            <span>BL</span> BLACKLINE
+        </a>
+
+        <button class="menu-toggle">☰</button>
+
+        <nav class="nav">
+            <a href="{% url 'inicio' %}">Inicio</a>
+            <a href="{% url 'servicios' %}">Servicios</a>
+            <a href="{% url 'citas' %}">Agendar cita</a>
+            <a class="active" href="{% url 'productos' %}">Productos</a>
+            <a href="{% url 'resenas' %}">Reseñas</a>
+            <a href="{% url 'contacto' %}">Contacto</a>
+        </nav>
+
+        <a class="header-cta" href="{% url 'citas' %}">
+            Reservar
+        </a>
+
+    </header>
+
+    <!-- PRESENTACIÓN -->
+    <section class="page-hero shop-hero">
+
+        <div class="eyebrow">BLACKLINE SHOP</div>
+
+        <h1>Cuida tu estilo <span>en casa.</span></h1>
+
+        <p>
+            Productos seleccionados por nuestros barberos para mantener el resultado de tu visita.
+        </p>
+
+    </section>
+
+    <!-- PRODUCTOS Y FILTROS -->
+    <section class="section">
+
+        <div class="filters">
+
+            <button class="filter active" data-filter="todos">Todos</button>
+
+            <button class="filter" data-filter="cabello">Cabello</button>
+
+            <button class="filter" data-filter="barba">Barba</button>
+
+            <button class="filter" data-filter="accesorios">Accesorios</button>
+
+            <button id="cartButton" class="cart-button">
+                🛒 Carrito <span id="cartCount">0</span>
+            </button>
+
+        </div>
+
+        <div class="product-grid">
+
+            {% for p in productos %}
+
+            <article class="product-card" data-category="{{ p.categoria }}">
+
+                <div class="product-visual">
+                    <img src="{{ p.imagen_url }}" alt="{{ p.nombre }}">
+                </div>
+
+                <h3>{{ p.nombre }}</h3>
+
+                <p>{{ p.descripcion }}</p>
+
+                <strong>${{ p.precio|floatformat:"-2" }}</strong>
+
+                <button
+                    class="btn btn-small add-cart"
+                    data-id="{{ p.id }}"
+                    data-name="{{ p.nombre }}"
+                    data-price="{{ p.precio|unlocalize }}">
+                    Agregar
+                </button>
+
+            </article>
+
+            {% empty %}
+
+            <p>Pronto habrá productos disponibles.</p>
+
+            {% endfor %}
+
+        </div>
+
+        {% csrf_token %}
+
+        <div
+            id="cartBox"
+            class="cart-box hidden"
+            data-checkout-url="{% url 'checkout' %}">
+        </div>
+
+    </section>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="footer">
+
+        <div>
+
+            <a class="logo" href="{% url 'inicio' %}">
+                <span>BL</span> BLACKLINE
+            </a>
+
+            <p>Estilo que habla por ti.</p>
+
+        </div>
+
+        <p>© 2026 BLACKLINE Barbería.</p>
+
+    </footer>
+
+    <script src="{% static 'blackline/js/script.js' %}?v=2"></script>
+
+</body>
+</html>

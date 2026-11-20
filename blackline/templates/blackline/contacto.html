@@ -1,0 +1,147 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto | BLACKLINE</title>
+    <link rel="stylesheet" href="{% static 'blackline/css/style.css' %}">
+</head>
+
+<body>
+
+    <!-- ENCABEZADO Y MENÚ -->
+    <header class="header">
+
+        <a class="logo" href="{% url 'inicio' %}">
+            <span>BL</span> BLACKLINE
+        </a>
+
+        <button class="menu-toggle">☰</button>
+
+        <nav class="nav">
+            <a href="{% url 'inicio' %}">Inicio</a>
+            <a href="{% url 'servicios' %}">Servicios</a>
+            <a href="{% url 'citas' %}">Agendar cita</a>
+            <a href="{% url 'productos' %}">Productos</a>
+            <a href="{% url 'resenas' %}">Reseñas</a>
+            <a class="active" href="{% url 'contacto' %}">Contacto</a>
+        </nav>
+
+        <a class="header-cta" href="{% url 'citas' %}">
+            Reservar
+        </a>
+
+    </header>
+
+    <!-- PRESENTACIÓN -->
+    <section class="page-hero contact-hero">
+
+        <div class="eyebrow">ENCUÉNTRANOS</div>
+
+        <h1>Hablemos de tu <span>estilo.</span></h1>
+
+        <p>
+            Estamos para ayudarte. Escríbenos o visítanos en la barbería.
+        </p>
+
+    </section>
+
+    <!-- INFORMACIÓN DE CONTACTO -->
+    <section class="section contact-layout">
+
+        <div class="contact-info">
+
+            <div class="contact-item">
+                <span>⌖</span>
+                <div>
+                    <b>Dirección</b>
+                    <p>
+                        Av. Reforma 245<br>
+                        Cuauhtémoc, Ciudad de México
+                    </p>
+                </div>
+            </div>
+
+            <div class="contact-item">
+                <span>◷</span>
+                <div>
+                    <b>Horario</b>
+                    <p>Lunes a sábado · 10:00 – 20:00</p>
+                </div>
+            </div>
+
+            <div class="contact-item">
+                <span>☎</span>
+                <div>
+                    <b>Teléfono</b>
+                    <p>55 1234 5678</p>
+                </div>
+            </div>
+
+            <div class="contact-item">
+                <span>✉</span>
+                <div>
+                    <b>Email</b>
+                    <p>hola@blacklinebarber.mx</p>
+                </div>
+            </div>
+
+            <a class="btn btn-outline"
+               target="_blank"
+               href="https://www.google.com/maps/search/?api=1&query=Av.+Reforma+245+Cuauhtemoc+Ciudad+de+Mexico">
+                Abrir ubicación en Maps →
+            </a>
+
+        </div>
+
+        <!-- FORMULARIO DE CONTACTO -->
+        <form id="contactForm" class="form-card">
+
+            <h2>Envíanos un mensaje</h2>
+
+            <label>
+                Nombre
+                <input required name="nombre" placeholder="Tu nombre">
+            </label>
+
+            <label>
+                Email
+                <input required name="email" type="email" placeholder="correo@ejemplo.com">
+            </label>
+
+            <label>
+                Mensaje
+                <textarea required name="mensaje" rows="6" placeholder="¿En qué podemos ayudarte?"></textarea>
+            </label>
+
+            <button class="btn btn-primary full">
+                Enviar mensaje →
+            </button>
+
+            <div id="contactMessage" class="form-message"></div>
+
+        </form>
+
+    </section>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="footer">
+
+        <div>
+            <a class="logo" href="{% url 'inicio' %}">
+                <span>BL</span> BLACKLINE
+            </a>
+
+            <p>Estilo que habla por ti.</p>
+        </div>
+
+        <p>© 2026 BLACKLINE Barbería.</p>
+
+    </footer>
+
+    <script src="{% static 'blackline/js/script.js' %}"></script>
+
+</body>
+</html>
