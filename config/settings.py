@@ -138,40 +138,14 @@ STORAGES = {
     },
 }
 
-# Email (Gmail)
+# Email - BREVO API
 
-try:
-    from .correo_local import CORREO, CLAVE_APLICACION, CORREO_NEGOCIO
-except ImportError:
-    CORREO, CLAVE_APLICACION, CORREO_NEGOCIO = '', '', ''
+BREVO_API_KEY = os.environ.get('BREVO_API_KEY', '')
 
-# Leer variables de entorno de Render
-CORREO = os.environ.get('EMAIL_HOST_USER', CORREO)
-CLAVE_APLICACION = os.environ.get('EMAIL_HOST_PASSWORD', CLAVE_APLICACION)
-CORREO_NEGOCIO = os.environ.get('CORREO_NEGOCIO', CORREO_NEGOCIO)
+CORREO = 'mayorgaisla@gmail.com'
 
-CLAVE_APLICACION = CLAVE_APLICACION.replace(' ', '')
-CORREO_REAL = bool(CORREO and CLAVE_APLICACION)
+CORREO_NEGOCIO = 'mayorgaisla@gmail.com'
 
-if CORREO_REAL:
-    MAILERS = {
-        'default': {
-            'BACKEND': 'django.core.mail.backends.smtp.EmailBackend',
-            'OPTIONS': {
-                'host': 'smtp.gmail.com',
-                'port': 465,
-                'username': CORREO,
-                'password': CLAVE_APLICACION,
-                'use_ssl': True,
-                'timeout': 15,
-            },
-        },
-    }
-else:
-    MAILERS = {
-        'default': {
-            'BACKEND': 'django.core.mail.backends.console.EmailBackend',
-        },
-    }
+CORREO_REAL = bool(BREVO_API_KEY)
 
-DEFAULT_FROM_EMAIL = f'BLACKLINE Barbería <{CORREO}>' if CORREO else 'BLACKLINE <no-reply@blackline.local>'
+DEFAULT_FROM_EMAIL = f'BLACKLINE Barbería <{CORREO}>'
