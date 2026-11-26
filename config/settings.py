@@ -138,13 +138,17 @@ STORAGES = {
     },
 }
 
-
 # Email (Gmail)
-# Los datos de la cuenta se escriben en config/correo_local.py (ese archivo es solo tuyo).
+
 try:
     from .correo_local import CORREO, CLAVE_APLICACION, CORREO_NEGOCIO
 except ImportError:
     CORREO, CLAVE_APLICACION, CORREO_NEGOCIO = '', '', ''
+
+# Leer variables de entorno de Render
+CORREO = os.environ.get('EMAIL_HOST_USER', CORREO)
+CLAVE_APLICACION = os.environ.get('EMAIL_HOST_PASSWORD', CLAVE_APLICACION)
+CORREO_NEGOCIO = os.environ.get('CORREO_NEGOCIO', CORREO_NEGOCIO)
 
 CLAVE_APLICACION = CLAVE_APLICACION.replace(' ', '')
 CORREO_REAL = bool(CORREO and CLAVE_APLICACION)
@@ -164,13 +168,10 @@ if CORREO_REAL:
         },
     }
 else:
-    # Sin Gmail configurado, los correos solo se muestran en la terminal (modo prueba).
     MAILERS = {
         'default': {
             'BACKEND': 'django.core.mail.backends.console.EmailBackend',
         },
     }
 
-DEFAULT_FROM_EMAIL = f'Blackline BarberÃ­a <{CORREO}>' if CORREO else 'Blackline BarberÃ­a <no-reply@blackline.local>'
-
-
+DEFAULT_FROM_EMAIL = f'BLACKLINE Barbería <{CORREO}>' if CORREO else 'BLACKLINE <no-reply@blackline.local>'
