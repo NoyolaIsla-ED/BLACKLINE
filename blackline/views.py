@@ -147,7 +147,7 @@ def checkout(request):
             codigo_postal=codigo_postal,
             total=total,
             estado_pago='PAGADO',
-            metodo_pago='METODO',
+            metodo_pago='TARJETA',
         )
 
         PedidoItem.objects.bulk_create([
@@ -168,7 +168,7 @@ def checkout(request):
         'mensaje': (
             f'¡Gracias, {nombre}! Tu pedido #{pedido.pk} por '
             f'${total:,.2f} se registró correctamente. '
-            f'Pago aprobado. {nota_correo(enviado, correo)}'
+            f'{nota_correo(enviado, correo)}'
         ),
     })
 SEGUNDOS_ENTRE_RESENAS = 60
