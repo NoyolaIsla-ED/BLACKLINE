@@ -16,7 +16,7 @@ from django.views.decorators.http import require_http_methods, require_POST
 from .correos import enviar_confirmacion_cita, enviar_confirmacion_pedido, nota_correo
 from .forms import CitaForm, ResenaForm, RegistroForm
 from .models import BARBEROS, HORAS, Pedido, PedidoItem, Producto, Resena, Servicio
-
+RESENAS_POR_PAGINA = 9
 
 def inicio(request):
     visibles = Resena.objects.filter(visible=True)
