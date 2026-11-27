@@ -68,3 +68,24 @@ class ResenaForm(forms.ModelForm):
         if re.search(r'https?://|www\.', texto, re.IGNORECASE):
             raise forms.ValidationError('Por seguridad no se permiten enlaces en las reseñas.')
         return texto
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
+
+class RegistroForm(UserCreationForm):
+    email = forms.EmailField(
+        required=True,
+        label='Correo electrónico'
+    )
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
+
+    def clean_email(self):
+        email = self.cleaned_data['email'].lower().strip()
+        if User.objects.filter(email__iexact=email).exists():
+            raise forms.ValidationError(
+                'Este correo ya está registrado.'
+            )
+        return email

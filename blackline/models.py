@@ -104,10 +104,33 @@ class Producto(models.Model):
 
 class Pedido(models.Model):
     """Compra hecha desde el carrito."""
+    
+    ESTADOS_PAGO = [
+        ('PENDIENTE', 'Pendiente'),
+        ('PAGADO', 'Pagado (simulado)'),
+    ]
 
     nombre = models.CharField(max_length=120, verbose_name='nombre del cliente')
     correo = models.EmailField(verbose_name='correo')
+    telefono = models.CharField(max_length=30, default='', blank=True, verbose_name='teléfono')
+    direccion = models.CharField(max_length=200, default='', blank=True, verbose_name='calle y número')
+    colonia = models.CharField(max_length=120, default='', blank=True, verbose_name='colonia')
+    municipio = models.CharField(max_length=120, default='', blank=True, verbose_name='municipio')
+    codigo_postal = models.CharField(max_length=10, default='', blank=True, verbose_name='código postal')
+
     total = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='total')
+    estado_pago = models.CharField(
+        max_length=12,
+        choices=ESTADOS_PAGO,
+        default='PENDIENTE',
+        verbose_name='estado del pago'
+    )
+    metodo_pago = models.CharField(
+        max_length=30,
+        default='SIMULADO',
+        verbose_name='método de pago'
+    )
+
     creado = models.DateTimeField(auto_now_add=True, verbose_name='creado')
 
     class Meta:
@@ -116,8 +139,7 @@ class Pedido(models.Model):
         verbose_name_plural = 'pedidos'
 
     def __str__(self):
-        return f'Pedido #{self.pk} · {self.nombre} · ${self.total}'
-
+        return f'Pedido #{self.pk} · {self.nombre} · ${self.total}' 
 
 class PedidoItem(models.Model):
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, related_name='items')

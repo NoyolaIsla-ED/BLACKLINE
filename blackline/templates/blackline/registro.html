@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear cuenta | BLACKLINE</title>
+    <link rel="stylesheet" href="{% static 'blackline/css/style.css' %}">
+</head>
+<body>
+<header class="header">
+    <a class="logo" href="{% url 'inicio' %}"><span>BL</span> BLACKLINE</a>
+    <nav class="nav">
+        <a href="{% url 'inicio' %}">Inicio</a>
+        <a href="{% url 'productos' %}">Productos</a>
+        <a href="{% url 'contacto' %}">Contacto</a>
+    </nav>
+</header>
+
+<main style="max-width:500px;margin:70px auto;padding:30px;background:#171717;border:1px solid #333;border-radius:12px;">
+    <h1 style="color:white;text-align:center;">Crear <span style="color:#d4ae62;">cuenta</span></h1>
+    <p style="color:#aaa;text-align:center;">Únete a la experiencia BLACKLINE.</p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div style="margin-bottom:18px;color:white;">
+                <label>{{ field.label }}</label>
+                {{ field }}
+                {% for error in field.errors %}
+                    <p style="color:#ff5555;">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+        {% if form.non_field_errors %}
+            <p style="color:#ff5555;">{{ form.non_field_errors }}</p>
+        {% endif %}
+
+        <button type="submit" class="btn btn-primary" style="width:100%;">
+            Crear mi cuenta
+        </button>
+    </form>
+
+    <p style="color:#aaa;text-align:center;margin-top:25px;">
+        ¿Ya tienes cuenta?
+        <a href="{% url 'login' %}" style="color:#d4ae62;">Inicia sesión</a>
+    </p>
+</main>
+</body>
+</html>

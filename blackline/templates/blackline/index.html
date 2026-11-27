@@ -10,27 +10,63 @@
 <link rel="stylesheet" href="{% static 'blackline/css/style.css' %}">
 </head>
 <body>
+
 <header class="header">
   <a class="logo" href="{% url 'inicio' %}"><span>BL</span> BLACKLINE</a>
   <button class="menu-toggle">☰</button>
+
   <nav class="nav">
-    <a class="active" href="{% url 'inicio' %}">Inicio</a><a href="{% url 'servicios' %}">Servicios</a>
-    <a href="{% url 'citas' %}">Agendar cita</a><a href="{% url 'productos' %}">Productos</a><a href="{% url 'resenas' %}">Reseñas</a><a href="{% url 'contacto' %}">Contacto</a>
+    <a class="active" href="{% url 'inicio' %}">Inicio</a>
+    <a href="{% url 'servicios' %}">Servicios</a>
+    <a href="{% url 'citas' %}">Agendar cita</a>
+    <a href="{% url 'productos' %}">Productos</a>
+    <a href="{% url 'resenas' %}">Reseñas</a>
+    <a href="{% url 'contacto' %}">Contacto</a>
   </nav>
+
+{% if user.is_authenticated %}
+    <a>Hola, {{ user.username }}</a>
+
+    {% if user.is_staff %}
+        <a href="{% url 'admin:index' %}">Administración</a>
+    {% endif %}
+
+    <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Cerrar sesión</button>
+    </form>
+{% else %}
+    <a href="{% url 'registro' %}">Crear cuenta</a>
+    <a href="{% url 'login' %}">Iniciar sesión</a>
+{% endif %}
+
   <a class="header-cta" href="{% url 'citas' %}">Reservar</a>
 </header>
+
 <main>
+
 <section class="hero">
   <div class="hero-copy">
     <div class="eyebrow">BLACKLINE BARBER SHOP · EST. 2020</div>
     <h1>Más que un corte,<br><span>es tu estilo.</span></h1>
     <p>Una experiencia premium para hombres que cuidan cada detalle. Cortes, barba y tratamientos realizados por profesionales.</p>
-    <div class="hero-actions"><a class="btn btn-primary" href="{% url 'citas' %}">Agendar cita <b>→</b></a><a class="btn btn-ghost" href="{% url 'servicios' %}">Explorar servicios</a></div>
-    <div class="hero-mini"><span>✓ Sin esperas innecesarias</span><span>✓ Barberos profesionales</span><span>✓ Productos premium</span></div>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="{% url 'citas' %}">Agendar cita <b>→</b></a>
+      <a class="btn btn-ghost" href="{% url 'servicios' %}">Explorar servicios</a>
+    </div>
+    <div class="hero-mini">
+      <span>✓ Sin esperas innecesarias</span>
+      <span>✓ Barberos profesionales</span>
+      <span>✓ Productos premium</span>
+    </div>
   </div>
+
   <div class="hero-photo">
     <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=1200&q=85" alt="Barbero realizando un corte profesional">
-    <div class="photo-badge"><strong>{% if total_resenas %}{{ promedio_resenas|floatformat:1 }}{% else %}4.9{% endif %}</strong><span>★★★★★<small>Clientes satisfechos</small></span></div>
+    <div class="photo-badge">
+      <strong>{% if total_resenas %}{{ promedio_resenas|floatformat:1 }}{% else %}4.9{% endif %}</strong>
+      <span>★★★★★<small>Clientes satisfechos</small></span>
+    </div>
   </div>
 </section>
 
@@ -42,10 +78,30 @@
 </section>
 
 <section class="section">
-  <div class="section-head"><div><div class="eyebrow">LO QUE HACEMOS</div><h2>Nuestros <span>servicios.</span></h2></div><a class="text-link" href="{% url 'servicios' %}">Ver todos →</a></div>
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">LO QUE HACEMOS</div>
+      <h2>Nuestros <span>servicios.</span></h2>
+    </div>
+    <a class="text-link" href="{% url 'servicios' %}">Ver todos →</a>
+  </div>
+
   <div class="service-grid">
     {% for servicio in servicios %}
-    <article class="service-card{% if servicio.destacado %} featured{% endif %}"><div class="service-img"><img src="{{ servicio.imagen_url }}" alt="{{ servicio.texto_alternativo|default:servicio.nombre }}"></div><div class="service-body"><span class="service-type">{{ servicio.categoria }}</span><h3>{{ servicio.nombre }}</h3><p>{{ servicio.descripcion }}</p><div class="service-bottom"><strong>${{ servicio.precio|floatformat:0 }}</strong><a href="{% url 'citas' %}?servicio={{ servicio.nombre|urlencode }}">Agendar →</a></div></div></article>
+    <article class="service-card{% if servicio.destacado %} featured{% endif %}">
+      <div class="service-img">
+        <img src="{{ servicio.imagen_url }}" alt="{{ servicio.texto_alternativo|default:servicio.nombre }}">
+      </div>
+      <div class="service-body">
+        <span class="service-type">{{ servicio.categoria }}</span>
+        <h3>{{ servicio.nombre }}</h3>
+        <p>{{ servicio.descripcion }}</p>
+        <div class="service-bottom">
+          <strong>${{ servicio.precio|floatformat:0 }}</strong>
+          <a href="{% url 'citas' %}?servicio={{ servicio.nombre|urlencode }}">Agendar →</a>
+        </div>
+      </div>
+    </article>
     {% empty %}
     <p>No hay servicios disponibles por el momento.</p>
     {% endfor %}
@@ -53,36 +109,121 @@
 </section>
 
 <section class="experience">
-  <div class="experience-photo"><img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1200&q=85" alt="Interior de barbería"></div>
-  <div class="experience-copy"><div class="eyebrow">LA EXPERIENCIA BLACKLINE</div><h2>Un espacio pensado<br><span>para ti.</span></h2><p>Desde que entras hasta que sales, cuidamos cada detalle. Ambiente, atención y técnica se combinan para que tu visita sea diferente.</p><div class="check-list"><span>✓ Atención personalizada</span><span>✓ Herramientas profesionales</span><span>✓ Ambiente premium</span><span>✓ Productos seleccionados</span></div><a class="btn btn-primary" href="{% url 'citas' %}">Quiero mi cita →</a></div>
+  <div class="experience-photo">
+    <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1200&q=85" alt="Interior de barbería">
+  </div>
+  <div class="experience-copy">
+    <div class="eyebrow">LA EXPERIENCIA BLACKLINE</div>
+    <h2>Un espacio pensado<br><span>para ti.</span></h2>
+    <p>Desde que entras hasta que sales, cuidamos cada detalle. Ambiente, atención y técnica se combinan para que tu visita sea diferente.</p>
+    <div class="check-list">
+      <span>✓ Atención personalizada</span>
+      <span>✓ Herramientas profesionales</span>
+      <span>✓ Ambiente premium</span>
+      <span>✓ Productos seleccionados</span>
+    </div>
+    <a class="btn btn-primary" href="{% url 'citas' %}">Quiero mi cita →</a>
+  </div>
 </section>
 
 <section class="section team">
-  <div class="section-head"><div><div class="eyebrow">NUESTRO EQUIPO</div><h2>Barberos <span>expertos.</span></h2></div></div>
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">NUESTRO EQUIPO</div>
+      <h2>Barberos <span>expertos.</span></h2>
+    </div>
+  </div>
+
   <div class="team-grid">
-    <article><img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=700&q=85" alt="Barbero Diego"><h3>Diego R.</h3><p>Especialista en fades</p></article>
-    <article><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=700&q=85" alt="Barbero Alex"><h3>Alex M.</h3><p>Barba y afeitado</p></article>
-    <article><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=700&q=85" alt="Barbero Marco"><h3>Marco L.</h3><p>Cortes clásicos</p></article>
+    <article>
+      <img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=700&q=85" alt="Barbero Diego">
+      <h3>Diego R.</h3>
+      <p>Especialista en fades</p>
+    </article>
+    <article>
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=700&q=85" alt="Barbero Alex">
+      <h3>Alex M.</h3>
+      <p>Barba y afeitado</p>
+    </article>
+    <article>
+      <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=700&q=85" alt="Barbero Marco">
+      <h3>Marco L.</h3>
+      <p>Cortes clásicos</p>
+    </article>
   </div>
 </section>
 
 <section class="reviews">
-  <div class="eyebrow">CLIENTES BLACKLINE</div><h2>Lo que dicen <span>de nosotros.</span></h2>
-  {% if total_resenas %}<p style="margin:0 0 26px;color:#d4ae62;letter-spacing:1px">★ {{ promedio_resenas|floatformat:1 }} / 5 · {{ total_resenas }} reseña{{ total_resenas|pluralize }}</p>{% endif %}
+  <div class="eyebrow">CLIENTES BLACKLINE</div>
+  <h2>Lo que dicen <span>de nosotros.</span></h2>
+
+  {% if total_resenas %}
+  <p style="margin:0 0 26px;color:#d4ae62;letter-spacing:1px">
+    ★ {{ promedio_resenas|floatformat:1 }} / 5 · {{ total_resenas }} reseña{{ total_resenas|pluralize }}
+  </p>
+  {% endif %}
+
   <div class="review-grid">
     {% for r in resenas_inicio %}
-    <article><div>{% for i in "12345" %}{% if forloop.counter <= r.calificacion %}★{% else %}☆{% endif %}{% endfor %}</div><p>“{{ r.comentario }}”</p><b>— {{ r.nombre }}</b></article>
+    <article>
+      <div>
+        {% for i in "12345" %}
+          {% if forloop.counter <= r.calificacion %}★{% else %}☆{% endif %}
+        {% endfor %}
+      </div>
+      <p>“{{ r.comentario }}”</p>
+      <b>— {{ r.nombre }}</b>
+    </article>
     {% empty %}
     <article><p>Aún no hay reseñas. ¡Sé el primero en opinar!</p></article>
     {% endfor %}
   </div>
-  <p style="text-align:center;margin:34px 0 0"><a class="btn btn-ghost" href="{% url 'resenas' %}">Ver todas y dejar mi reseña →</a></p>
+
+  <p style="text-align:center;margin:34px 0 0">
+    <a class="btn btn-ghost" href="{% url 'resenas' %}">Ver todas y dejar mi reseña →</a>
+  </p>
 </section>
 
-<section class="cta-banner"><div><div class="eyebrow">TU PRÓXIMO LOOK</div><h2>¿Listo para verte diferente?</h2></div><a class="btn btn-primary" href="{% url 'citas' %}">Reservar mi cita →</a></section>
+<section class="cta-banner">
+  <div>
+    <div class="eyebrow">TU PRÓXIMO LOOK</div>
+    <h2>¿Listo para verte diferente?</h2>
+  </div>
+  <a class="btn btn-primary" href="{% url 'citas' %}">Reservar mi cita →</a>
+</section>
+
 </main>
 
-<footer class="footer"><div><a class="logo" href="{% url 'inicio' %}"><span>BL</span> BLACKLINE</a><p>Estilo que habla por ti.</p><div class="social">Instagram · Facebook · TikTok</div></div><div><b>BLACKLINE</b><p>Av. Reforma 245 · CDMX</p><p>Lun–Sáb · 10:00–20:00</p></div><div><b>Contacto</b><p>55 1234 5678</p><p>hola@blacklinebarber.mx</p></div></footer>
+<footer class="footer">
+  <div>
+    <a class="logo" href="{% url 'inicio' %}"><span>BL</span> BLACKLINE</a>
+    <p>Estilo que habla por ti.</p>
+    <div class="social">Instagram · Facebook · TikTok</div>
+  </div>
+  <div>
+    <b>BLACKLINE</b>
+    <p>Av. Reforma 245 · CDMX</p>
+    <p>Lun–Sáb · 10:00–20:00</p>
+  </div>
+  <div>
+    <b>Contacto</b>
+    <p>55 1234 5678</p>
+    <p>hola@blacklinebarber.mx</p>
+  </div>
+</footer>
+
 <script src="{% static 'blackline/js/script.js' %}"></script>
+
+<!-- BOTÓN FLOTANTE DE WHATSAPP -->
+<a href="https://wa.me/528311286127?text=Hola%20BLACKLINE,%20me%20gustar%C3%ADa%20obtener%20informaci%C3%B3n."
+   target="_blank"
+   rel="noopener noreferrer"
+   aria-label="Contactar por WhatsApp"
+   style="position:fixed;bottom:25px;right:25px;background:#25D366;color:white;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,.4);z-index:9999;">
+  <svg viewBox="0 0 32 32" width="35" height="35" fill="white" xmlns="http://www.w3.org/2000/svg">
+  <path d="M16 2.5A13.4 13.4 0 0 0 4.4 22.6L2.5 29.5l7.1-1.9A13.5 13.5 0 1 0 16 2.5Zm0 24.5c-2.1 0-4.1-.6-5.8-1.7l-.4-.2-4.2 1.1 1.1-4.1-.3-.5A10.9 10.9 0 1 1 16 27Zm6-8.2c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.3-.5-2.5-1.6-.9-.8-1.6-1.8-1.8-2.1-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.6s-.7-1.7-1-2.3c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.1 1.1-1.1 2.6s1.1 3 1.2 3.2c.2.2 2.2 3.4 5.3 4.7.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.4Z"/>
+</svg> 
+</a>
+
 </body>
 </html>

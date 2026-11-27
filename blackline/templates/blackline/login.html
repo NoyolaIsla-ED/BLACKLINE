@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión | BLACKLINE</title>
+    <link rel="stylesheet" href="{% static 'blackline/css/style.css' %}">
+</head>
+<body>
+<header class="header">
+    <a class="logo" href="{% url 'inicio' %}"><span>BL</span> BLACKLINE</a>
+    <nav class="nav">
+        <a href="{% url 'inicio' %}">Inicio</a>
+        <a href="{% url 'productos' %}">Productos</a>
+        <a href="{% url 'contacto' %}">Contacto</a>
+    </nav>
+</header>
+
+<main style="max-width:450px;margin:70px auto;padding:30px;background:#171717;border:1px solid #333;border-radius:12px;">
+    <h1 style="color:white;text-align:center;">Iniciar <span style="color:#d4ae62;">sesión</span></h1>
+    <p style="color:#aaa;text-align:center;">Bienvenido de nuevo a BLACKLINE.</p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div style="margin-bottom:20px;color:white;">
+            <label>Usuario</label>
+            <input type="text" name="username" required autocomplete="username"
+                   style="width:100%;padding:12px;margin-top:8px;">
+        </div>
+
+        <div style="margin-bottom:20px;color:white;">
+            <label>Contraseña</label>
+            <input type="password" name="password" required autocomplete="current-password"
+                   style="width:100%;padding:12px;margin-top:8px;">
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p style="color:#d4ae62;">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <button type="submit" class="btn btn-primary" style="width:100%;">
+            Entrar
+        </button>
+    </form>
+
+    <p style="color:#aaa;text-align:center;margin-top:25px;">
+        ¿No tienes cuenta?
+        <a href="{% url 'registro' %}" style="color:#d4ae62;">Regístrate</a>
+    </p>
+</main>
+</body>
+</html>
