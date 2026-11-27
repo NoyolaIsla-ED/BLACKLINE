@@ -23,12 +23,53 @@ function update(msg){
       <button type="button" data-act="quitar" data-id="${i.id}" title="Eliminar producto" style="${qb};color:#ff6b6b">✕</button></span></div>`).join('')
     +(cart.length?`<div class="cart-total">Total: ${money(total)}</div>
     <form id="checkoutForm" style="display:grid;gap:10px;margin-top:16px">
-      <input required name="nombre" placeholder="Tu nombre" style="padding:12px;background:#090a0a;border:1px solid #303431;color:#fff">
-      <input required type="email" name="correo" placeholder="Correo para tu confirmación" style="padding:12px;background:#090a0a;border:1px solid #303431;color:#fff">
-      <button class="btn btn-primary">Finalizar compra →</button>
+      <h4>Datos del cliente</h4>
+
+      <input required name="nombre" maxlength="120" placeholder="Nombre completo" style="padding:12px;background:#090a0a;border:1px solid #303431;color:#fff">
+
+      <input required type="email" name="correo" placeholder="Correo electrónico" style="padding:12px;background:#090a0a;border:1px solid #303431;color:#fff">
+
+      <input required type="tel" name="telefono" maxlength="30" placeholder="Número de teléfono" style="padding:12px;background:#090a0a;border:1px solid #303431;color:#fff">
+
+      <h4>Dirección de envío</h4>
+
+      <input required name="direccion" maxlength="200" placeholder="Calle y número" style="padding:12px;background:#090a0a;border:1px solid #303431;color:#fff">
+
+      <input required name="colonia" maxlength="120" placeholder="Colonia" style="padding:12px;background:#090a0a;border:1px solid #303431;color:#fff">
+
+      <input required name="municipio" maxlength="120" placeholder="Municipio" style="padding:12px;background:#090a0a;border:1px solid #303431;color:#fff">
+
+      <input required name="codigo_postal" maxlength="10" placeholder="Código postal" style="padding:12px;background:#090a0a;border:1px solid #303431;color:#fff">
+
+      <h4>Pago con tarjeta</h4>
+
+<input required name="titular" maxlength="100"
+placeholder="Nombre del titular"
+style="padding:12px;background:#090a0a;border:1px solid #303431;color:#fff">
+
+<input required name="tarjeta" inputmode="numeric"
+maxlength="19" pattern="[0-9 ]{13,19}"
+placeholder="Número de tarjeta"
+style="padding:12px;background:#090a0a;border:1px solid #303431;color:#fff">
+
+<input required name="vencimiento" placeholder="Fecha de vencimiento (MM/AA)"
+pattern="(0[1-9]|1[0-2])/[0-9]{2}"
+style="padding:12px;background:#090a0a;border:1px solid #303431;color:#fff">
+
+<input required name="cvv" inputmode="numeric"
+maxlength="4" pattern="[0-9]{3,4}"
+placeholder="CVV "
+style="padding:12px;background:#090a0a;border:1px solid #303431;color:#fff">
+
+<p style="font-size:12px;color:#aaa">
+</p>
+
+      <button class="btn btn-primary">Realizar pago y finalizar compra →</button>
+
       <button type="button" id="clearCart" class="btn btn-small">Vaciar carrito</button>
+
       <div id="checkoutMsg" class="form-message"></div>
-    </form>`:'');
+</form>`:'');
 }
 document.querySelectorAll('.add-cart').forEach(b=>b.addEventListener('click',()=>{const id=Number(b.dataset.id),n=b.dataset.name,p=Number(b.dataset.price),old=cart.find(i=>i.id===id);old?old.qty++:cart.push({id,name:n,price:p,qty:1});save();update();b.textContent='✓ Agregado';setTimeout(()=>b.textContent='Agregar',900)}));
 if(box){
@@ -49,7 +90,16 @@ if(box){
     try{
       const token=(document.querySelector('[name=csrfmiddlewaretoken]')||{}).value||'';
       const r=await fetch(box.dataset.checkoutUrl,{method:'POST',headers:{'Content-Type':'application/json','X-CSRFToken':token},
-        body:JSON.stringify({nombre:f.nombre.value,correo:f.correo.value,items:cart.map(i=>({id:i.id,qty:i.qty}))})});
+      body:JSON.stringify({
+  nombre:f.nombre.value,
+  correo:f.correo.value,
+  telefono:f.telefono.value,
+  direccion:f.direccion.value,
+  colonia:f.colonia.value,
+  municipio:f.municipio.value,
+  codigo_postal:f.codigo_postal.value,
+  items:cart.map(i=>({id:i.id,qty:i.qty}))
+})}); 
       const d=await r.json();
       if(d.ok){cart=[];save();update(d.mensaje)}else{m.style.color='#ff6b6b';m.innerHTML=d.errores.map(esc).join('<br>');btn.disabled=false}
     }catch(err){m.style.color='#ff6b6b';m.textContent='No se pudo procesar la compra. Intenta de nuevo.';btn.disabled=false}
