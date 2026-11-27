@@ -1,80 +1,80 @@
 [
-{
-  "model": "blackline.resena",
-  "pk": 1,
-  "fields": {
-    "nombre": "Carlos M.",
-    "servicio": null,
-    "calificacion": 5,
-    "comentario": "Excelente atenciÛn y el fade quedÛ exactamente como lo pedÌ. El ambiente est· increÌble.",
-    "visible": true,
-    "respuesta": "",
-    "creada": "2026-11-19T23:31:55.594Z"
+  {
+    "model": "blackline.resena",
+    "pk": 1,
+    "fields": {
+      "nombre": "Carlos M.",
+      "servicio": null,
+      "calificacion": 5,
+      "comentario": "Excelente atenci√≥n y el fade qued√≥ exactamente como lo ped√≠. El ambiente est√° incre√≠ble.",
+      "visible": true,
+      "respuesta": "",
+      "creada": "2026-11-19T23:31:55.594Z"
+    }
+  },
+  {
+    "model": "blackline.resena",
+    "pk": 2,
+    "fields": {
+      "nombre": "Daniel R.",
+      "servicio": null,
+      "calificacion": 5,
+      "comentario": "Desde que conoc√≠ Blackline ya no busco otra barber√≠a. Muy profesionales.",
+      "visible": true,
+      "respuesta": "",
+      "creada": "2026-11-19T23:31:55.611Z"
+    }
+  },
+  {
+    "model": "blackline.resena",
+    "pk": 3,
+    "fields": {
+      "nombre": "Luis A.",
+      "servicio": null,
+      "calificacion": 5,
+      "comentario": "La experiencia completa vale totalmente la pena. Todo est√° muy cuidado.",
+      "visible": true,
+      "respuesta": "",
+      "creada": "2026-11-19T23:31:55.626Z"
+    }
+  },
+  {
+    "model": "blackline.resena",
+    "pk": 4,
+    "fields": {
+      "nombre": "Jorge S.",
+      "servicio": null,
+      "calificacion": 4,
+      "comentario": "Muy buen corte y buen trato. Solo que tuve que esperar un poco m√°s de lo planeado.",
+      "visible": true,
+      "respuesta": "",
+      "creada": "2026-11-19T23:31:55.639Z"
+    }
+  },
+  {
+    "model": "blackline.resena",
+    "pk": 5,
+    "fields": {
+      "nombre": "Isla",
+      "servicio": 1,
+      "calificacion": 5,
+      "comentario": "todo bien muy guapo el barbero",
+      "visible": true,
+      "respuesta": "",
+      "creada": "2026-11-19T23:37:31.147Z"
+    }
+  },
+  {
+    "model": "blackline.resena",
+    "pk": 6,
+    "fields": {
+      "nombre": "marcelo",
+      "servicio": 1,
+      "calificacion": 5,
+      "comentario": "muy buen corte saludos",
+      "visible": true,
+      "respuesta": "",
+      "creada": "2026-11-27T01:22:40.058Z"
+    }
   }
-},
-{
-  "model": "blackline.resena",
-  "pk": 2,
-  "fields": {
-    "nombre": "Daniel R.",
-    "servicio": null,
-    "calificacion": 5,
-    "comentario": "Desde que conocÌ Blackline ya no busco otra barberÌa. Muy profesionales.",
-    "visible": true,
-    "respuesta": "",
-    "creada": "2026-11-19T23:31:55.611Z"
-  }
-},
-{
-  "model": "blackline.resena",
-  "pk": 3,
-  "fields": {
-    "nombre": "Luis A.",
-    "servicio": null,
-    "calificacion": 5,
-    "comentario": "La experiencia completa vale totalmente la pena. Todo est· muy cuidado.",
-    "visible": true,
-    "respuesta": "",
-    "creada": "2026-11-19T23:31:55.626Z"
-  }
-},
-{
-  "model": "blackline.resena",
-  "pk": 4,
-  "fields": {
-    "nombre": "Jorge S.",
-    "servicio": null,
-    "calificacion": 4,
-    "comentario": "Muy buen corte y buen trato. Solo que tuve que esperar un poco m·s de lo planeado.",
-    "visible": true,
-    "respuesta": "",
-    "creada": "2026-11-19T23:31:55.639Z"
-  }
-},
-{
-  "model": "blackline.resena",
-  "pk": 5,
-  "fields": {
-    "nombre": "Isla",
-    "servicio": 5,
-    "calificacion": 5,
-    "comentario": "todo bien muy guapo el barbero",
-    "visible": true,
-    "respuesta": "",
-    "creada": "2026-11-19T23:37:31.147Z"
-  }
-},
-{
-  "model": "blackline.resena",
-  "pk": 6,
-  "fields": {
-    "nombre": "marcelo",
-    "servicio": 5,
-    "calificacion": 5,
-    "comentario": "muy buen corte saludos",
-    "visible": true,
-    "respuesta": "",
-    "creada": "2026-11-27T01:22:40.058Z"
-  }
-}
 ]
