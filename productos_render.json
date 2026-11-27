@@ -1,0 +1,80 @@
+[
+  {
+    "model": "blackline.producto",
+    "pk": 1,
+    "fields": {
+      "nombre": "Aceite para Barba",
+      "categoria": "barba",
+      "descripcion": "Hidratación y aroma elegante.",
+      "precio": "220.00",
+      "imagen_url": "https://images.unsplash.com/photo-1621607512214-68297480165e?auto=format&fit=crop&w=700&q=85",
+      "activo": true,
+      "orden": 1
+    }
+  },
+  {
+    "model": "blackline.producto",
+    "pk": 2,
+    "fields": {
+      "nombre": "Bálsamo para Barba",
+      "categoria": "barba",
+      "descripcion": "Control y suavidad durante el día.",
+      "precio": "240.00",
+      "imagen_url": "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=700&q=85",
+      "activo": true,
+      "orden": 2
+    }
+  },
+  {
+    "model": "blackline.producto",
+    "pk": 3,
+    "fields": {
+      "nombre": "Pomada Matte",
+      "categoria": "cabello",
+      "descripcion": "Fijación fuerte sin brillo.",
+      "precio": "280.00",
+      "imagen_url": "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=700&q=85",
+      "activo": true,
+      "orden": 3
+    }
+  },
+  {
+    "model": "blackline.producto",
+    "pk": 4,
+    "fields": {
+      "nombre": "Pomada Classic",
+      "categoria": "cabello",
+      "descripcion": "Acabado clásico y flexible.",
+      "precio": "260.00",
+      "imagen_url": "https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=700&q=85",
+      "activo": true,
+      "orden": 4
+    }
+  },
+  {
+    "model": "blackline.producto",
+    "pk": 5,
+    "fields": {
+      "nombre": "Peine Blackline",
+      "categoria": "accesorios",
+      "descripcion": "Resistente y práctico para uso diario.",
+      "precio": "150.00",
+      "imagen_url": "https://images.unsplash.com/photo-1585751119414-ef2636f8aede?auto=format&fit=crop&w=700&q=85",
+      "activo": true,
+      "orden": 5
+    }
+  },
+  {
+    "model": "blackline.producto",
+    "pk": 6,
+    "fields": {
+      "nombre": "Cepillo para Barba",
+      "categoria": "accesorios",
+      "descripcion": "Distribuye aceites y mantiene la forma.",
+      "precio": "190.00",
+      "imagen_url": "https://images.unsplash.com/photo-1620331311520-246422fd82f9?auto=format&fit=crop&w=700&q=85",
+      "activo": true,
+      "orden": 6
+    }
+  }
+]
